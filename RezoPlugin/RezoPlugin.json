@@ -2,5 +2,7 @@
   "Author": "Azure Gem",
   "Name": "Rezo Scale Plugin",
   "Punchline": "Lower 3D Resolution Scale",
-  "Description": "Ever wanted to render at lower resolution? Now you can!"
+  "Description": "Ever wanted to render at lower resolution? Now you can!",
+  "Tags": [ "graphics", "settings", "resolution", "scaling", "scale", "configuration" ],
+  "CategoryTags":  [ "utility" ]
 }
