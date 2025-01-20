@@ -28,7 +28,7 @@ namespace RezoPlugin
             this.Logger = logger;
 
             this._config = this.PluginInterface.GetPluginConfig() as Config ?? new Config();
-            this._configUi = new(this._config, this.PluginInterface, this.Logger);
+            this._configUi = new(this, this._config, this.PluginInterface, this.Logger);
 
             this._windows = new();
             this._windows.AddWindow(this._configUi);
@@ -82,6 +82,11 @@ namespace RezoPlugin
             this.Logger.Info($"Changed Rezo Scale from {oldScale} to {scale} | New Scale: {GraphicsConfig.Instance()->GraphicsRezoScale}");
         }
 
+        public void RestoreGameSetting()
+        {
+            this.SetScale(this.GameConfig.System.GetUInt("GraphicsRezoScale") / 100f);
+        }
+
         public void Dispose()
         {
             this.Commands.RemoveHandler("/prezo");
@@ -89,8 +94,7 @@ namespace RezoPlugin
             this.PluginInterface.UiBuilder.Draw -= this._windows.Draw;
             this.PluginInterface.UiBuilder.OpenConfigUi -= this._configUi.Toggle;
             this.PluginInterface.UiBuilder.OpenMainUi -= this._configUi.Toggle;
-
-            this.SetScale(this.GameConfig.System.GetUInt("GraphicsRezoScale") / 100f);
+            if (this._config.Enabled) this.RestoreGameSetting();
         }
     }
 }

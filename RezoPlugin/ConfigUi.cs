@@ -7,12 +7,14 @@ namespace RezoPlugin
 {
     internal class ConfigUi : Window
     {
+        private Plugin Plugin { get; }
         private Config Config { get; }
         private IDalamudPluginInterface PluginInterface { get; }
         private IPluginLog Logger { get; }
 
-        public ConfigUi(Config config, IDalamudPluginInterface pluginInterface, IPluginLog logger) : base("Rezo Scale Configuration")
+        public ConfigUi(Plugin plugin, Config config, IDalamudPluginInterface pluginInterface, IPluginLog logger) : base("Rezo Scale Configuration")
         {
+            this.Plugin = plugin;
             this.Config = config;
             this.PluginInterface = pluginInterface;
             this.Logger = logger;
@@ -23,7 +25,7 @@ namespace RezoPlugin
 
         public override void Draw()
         {
-            ImGui.Checkbox("Enabled", ref this.Config._enabled);
+            if (ImGui.Checkbox("Enabled", ref this.Config._enabled) && !this.Config._enabled) this.Plugin.RestoreGameSetting();
             if (ImGui.IsItemHovered()) ImGui.SetTooltip("Enable plugin");
 
             ImGui.BeginDisabled(!this.Config._enabled);
