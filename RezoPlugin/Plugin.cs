@@ -93,6 +93,7 @@ namespace RezoPlugin
         public void RestoreGameSetting()
         {
             this.SetScale(this.GameConfig.System.GetUInt("GraphicsRezoScale") / 100f);
+            if (GraphicsConfig.Instance()->GraphicsRezoUpscaleType is 0) GraphicsConfig.Instance()->GraphicsRezoUpscaleType = 1;
         }
 
         public void Dispose()
