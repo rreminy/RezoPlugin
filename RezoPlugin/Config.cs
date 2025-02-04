@@ -9,6 +9,7 @@ namespace RezoPlugin
         internal bool _enabled = true;
         internal bool _onlyMin = false;
         internal float _scale = 0.25f;
+        internal bool _disableFsrSharpen = false;
 
         /// <inheritdoc/>
         int IPluginConfiguration.Version { get; set; } = 0;
@@ -32,6 +33,12 @@ namespace RezoPlugin
         {
             get => this._scale;
             set => this._scale = value;
+        }
+
+        public bool DisableFSRSharpen
+        {
+            get => this._disableFsrSharpen;
+            set => this._disableFsrSharpen = value;
         }
     }
 }

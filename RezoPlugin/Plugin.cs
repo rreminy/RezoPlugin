@@ -67,8 +67,16 @@ namespace RezoPlugin
         private void Framework_Update(IFramework framework)
         {
             if (!this._config.Enabled) return;
+            var scalerType = GraphicsConfig.Instance()->GraphicsRezoUpscaleType;
+            if (scalerType > 1) return;
+
             if (this._config.OnlyMinimum && this.GameConfig.System.GetUInt("GraphicsRezoScale") > 50) return;
 
+            // Disable AMD FSR Sharpen Logic
+            if (this._config.DisableFSRSharpen && scalerType is 1) GraphicsConfig.Instance()->GraphicsRezoUpscaleType = 0;
+            else if (!this._config.DisableFSRSharpen && scalerType is 0) GraphicsConfig.Instance()->GraphicsRezoUpscaleType = 1;
+
+            // 3D Resolution Scaling logic
             var newScale = this._config.Scale;
             if (newScale is >= 0f and <= 1f) this.SetScale(newScale);
         }
