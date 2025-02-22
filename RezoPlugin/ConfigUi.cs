@@ -41,6 +41,20 @@ namespace RezoPlugin
 
             ImGui.SliderFloat("3D Resolution Scale", ref this.Config._scale, 0.1f, this.Config.OnlyMinimum ? 0.5f : 1.0f);
 
+            ImGui.Checkbox("Use Alternate Setting for Combat", ref this.Config._scaleInCombatEnabled);
+            if (this.Config._scaleInCombatEnabled)
+            {
+                ImGui.SameLine();
+                ImGui.SliderFloat("3D Resolution Scale During Combat", ref this.Config._scaleInCombat, 0.1f, this.Config.OnlyMinimum ? 0.5f : 1.0f);
+            }
+
+            ImGui.Checkbox("Use Alternate Setting for Combat (Alliance)", ref this.Config._scaleInAllianceCombatEnabled);
+            if (this.Config._scaleInAllianceCombatEnabled)
+            {
+                ImGui.SameLine();
+                ImGui.SliderFloat("3D Resolution Scale During Combat (Alliance)", ref this.Config._scaleInAllianceCombat, 0.1f, this.Config.OnlyMinimum ? 0.5f : 1.0f);
+            }
+
             ImGui.Checkbox("Disable Sharpen filter", ref this.Config._disableFsrSharpen);
             if (ImGui.IsItemHovered()) ImGui.SetTooltip("Disables the sharpen filter from FSR");
             ImGui.EndDisabled();

@@ -1,9 +1,11 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using Dalamud.Interface.Windowing;
+using Dalamud.IoC;
 using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Graphics.Render;
+using Dalamud.Game.ClientState.Conditions;
 
 namespace RezoPlugin
 {
@@ -18,6 +20,9 @@ namespace RezoPlugin
         private IGameConfig GameConfig { get; }
         private ICommandManager Commands { get; }
         private IPluginLog Logger { get; }
+        private Service _service;
+
+        
 
         public Plugin(IDalamudPluginInterface pluginInterface, IFramework framework, IGameConfig gameConfig, ICommandManager commands, IPluginLog logger)
         {
@@ -38,7 +43,11 @@ namespace RezoPlugin
             this.PluginInterface.UiBuilder.Draw += this._windows.Draw;
             this.PluginInterface.UiBuilder.OpenConfigUi += this._configUi.Toggle;
             this.PluginInterface.UiBuilder.OpenMainUi += this._configUi.Toggle;
+            _service = new Service();
+            _service.InitializeService(pluginInterface);
         }
+
+        
 
         public void RezoCommandHandler(string command, string args)
         {
@@ -78,6 +87,22 @@ namespace RezoPlugin
 
             // 3D Resolution Scaling logic
             var newScale = this._config.Scale;
+
+            if (Service.Condition[ConditionFlag.InCombat])
+            {
+                if (this._config.ScaleInCombatEnabled)
+                {
+                    newScale = this._config.ScaleInCombat;
+                }
+
+                if (this._config.ScaleInAllianceCombatEnabled
+                    && Service.ClientState.LocalPlayer != null
+                    && Service.ClientState.LocalPlayer.StatusFlags.HasFlag(Dalamud.Game.ClientState.Objects.Enums.StatusFlags.AllianceMember))
+                {
+                    newScale = this._config.ScaleInAllianceCombat;
+                }
+            }
+
             if (newScale is >= 0f and <= 1f) this.SetScale(newScale);
         }
 
