@@ -20,7 +20,7 @@ namespace RezoPlugin
             this.PluginInterface = pluginInterface;
             this.Logger = logger;
 
-            this.Size = new(480, 140);
+            this.Size = new(480, 200);
             this.SizeCondition = ImGuiCond.FirstUseEver;
         }
 
@@ -44,15 +44,17 @@ namespace RezoPlugin
             ImGui.Checkbox("Use Alternate Setting for Combat", ref this.Config._scaleInCombatEnabled);
             if (this.Config._scaleInCombatEnabled)
             {
-                ImGui.SameLine();
+                ImGui.Indent();
                 ImGui.SliderFloat("3D Resolution Scale During Combat", ref this.Config._scaleInCombat, 0.1f, this.Config.OnlyMinimum ? 0.5f : 1.0f);
+                ImGui.Unindent();
             }
 
             ImGui.Checkbox("Use Alternate Setting for Combat (Alliance)", ref this.Config._scaleInAllianceCombatEnabled);
             if (this.Config._scaleInAllianceCombatEnabled)
             {
-                ImGui.SameLine();
+                ImGui.Indent();
                 ImGui.SliderFloat("3D Resolution Scale During Combat (Alliance)", ref this.Config._scaleInAllianceCombat, 0.1f, this.Config.OnlyMinimum ? 0.5f : 1.0f);
+                ImGui.Unindent();
             }
 
             ImGui.Checkbox("Disable Sharpen filter", ref this.Config._disableFsrSharpen);
