@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Dalamud.NET.SDK/11.2.0">
+<Project Sdk="Dalamud.NET.SDK/12.0.2">
   <PropertyGroup>
-    <Version>1.2.1.0</Version>
+    <Version>1.2.2.0</Version>
     <OutputPath>bin/</OutputPath>
+    <TargetFramework>net9.0-windows</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="RezoPlugin.json" />
